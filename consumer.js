@@ -43,8 +43,12 @@ async function consumirUnMensaje() {
     }
     return true;
   }
-  if (respuesta.status === 404) {
+  if (respuesta.status === 404 || respuesta.status === 204) {
     return false; // cola vacia dentro del tiempo de espera, normal
+    // (distintas versiones de la API REST de mqweb usan uno u otro
+    // codigo para "no habia ningun mensaje" -- se confirmo con el
+    // servidor real que este devuelve 204, no 404 como se asumio
+    // inicialmente)
   }
   console.error('[Multimoneda Consumer] Respuesta inesperada de IBM MQ:', respuesta.status);
   return false;
