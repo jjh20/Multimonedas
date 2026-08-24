@@ -1,10 +1,7 @@
-const { connectRabbitMQ, publishEvent } = require('./config/rabbitmq');
+const { connectIbmMQ, publishEvent } = require('./config/ibmmq');
 require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
-const Account = require('./Account');
-const Transferencia = require('./Transferencia');
-
 const app = express();
 app.use(express.json());
 
@@ -17,9 +14,9 @@ console.log('URI:', process.env.MONGO_URI);
 mongoose.connect(process.env.MONGO_URI || 'mongodb://mongodb:27017/bankdb?retryWrites=false')
     .then(() => {
         console.log('MongoDB conectado exitosamente');
-        connectRabbitMQ().catch(err => {
-            console.error('[RabbitMQ] Failed to connect, retrying in 5s...', err.message);
-            setTimeout(() => connectRabbitMQ().catch(e => console.error('[RabbitMQ] Reintento fallido:', e.message)), 5000);
+        connectIbmMQ().catch(err => {
+            console.error('[IbmMQ] Failed to connect, retrying in 5s...', err.message);
+            setTimeout(() => connectIbmMQ().catch(e => console.error('[IbmMQ] Reintento fallido:', e.message)), 5000);
         });
         app.listen(PUERTO, () => console.log(`Servicio multimoneda corriendo en puerto ${PUERTO}`));
     })
