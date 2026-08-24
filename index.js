@@ -18,6 +18,7 @@ mongoose.connect(process.env.MONGO_URI || 'mongodb://mongodb:27017/bankdb?retryW
             console.error('[IbmMQ] Failed to connect, retrying in 5s...', err.message);
             setTimeout(() => connectIbmMQ().catch(e => console.error('[IbmMQ] Reintento fallido:', e.message)), 5000);
         });
+        require('./consumer'); // arranca el consumidor de IBM MQ
         app.listen(PUERTO, () => console.log(`Servicio multimoneda corriendo en puerto ${PUERTO}`));
     })
     .catch(err => console.error('Error de conexión:', err));
