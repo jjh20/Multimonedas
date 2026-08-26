@@ -3,6 +3,7 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const Account = require('./Account');
+const Transferencia = require('./Transferencia');
 const app = express();
 app.use(express.json());
 
